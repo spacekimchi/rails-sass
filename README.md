@@ -71,3 +71,7 @@ To run tests we are using Docker. This gives the advantage of having tests, deve
 
 Run tests with this command: `docker-compose run -e "RAILS_ENV=test" web bundle exec rspec spec/models/role_spec.rb`
 
+# Deploying the application
+
+Get a VPS somewhere like Vultr, Digital Ocean, or Hetzner.
+Install docker. `https://docs.docker.com/engine/install/debian/` for Debian servers

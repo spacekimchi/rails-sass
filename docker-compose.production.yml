@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   # PostgreSQL container
   db:
@@ -53,7 +52,9 @@ services:
     env_file:
       - ".env"
     ports:
-      - "80:3000"
+      # the port 8080 here is the port specified in the nginx config file
+      # 3000 is the port that the rails server is running on in the docker container
+      - "8080:3000"
     depends_on:
       - db
       - redis
