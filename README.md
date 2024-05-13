@@ -1,4 +1,4 @@
-# Muh Trades
+# Rails Sass
 
 The purpose of this project is to create a fast, easy, and insightful way for prop traders to record their trades. Traders who are using NinjaTrader will be able to connect their Muh Trades account and automatically import their executions. Executions will be processed into trades for easy recording and analysis. Stop blowing up, get profitable now.
 
