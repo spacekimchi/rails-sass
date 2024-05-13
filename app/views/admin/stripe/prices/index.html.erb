@@ -1,0 +1,20 @@
+<% @prices.each do | price| %>
+  <div>
+    <div>
+      interval: <%= price.recurring&.interval %>
+    </div>
+    <div>
+      unit_amount: $<%= price.unit_amount/100 %>
+    </div>
+    <div>
+      type: <%= price.type %>
+    </div>
+    <div>
+      lookup_key: <%= price.lookup_key %>
+    </div>
+    <div>
+      nickname: <%= price.nickname %>
+    </div>
+    <%= button_to 'Subscribe', stripe_checkout_sessions_path(price_id: price.id, type: price.type), data: { turbo: false } %>
+  </div>
+<% end %>

@@ -1,0 +1,59 @@
+<%= form_with(model: [:admin, product, product_price], local: true) do |form| %>
+  <% if product_price.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product_price.errors.count, "error") %> prohibited this product price from being saved:</h2>
+      <ul>
+        <% product_price.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if product_price.id %>
+    <div class="field">
+      <%= form.label :stripe_price_id %>
+      <%= form.text_field :stripe_price_id %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_active, 'Active Status' %>
+    <%= form.check_box :is_active %>
+  </div>
+
+  <% if product.for_subscription? %>
+    <div class="field">
+      <%= form.label :interval %>
+      <%= form.select :interval, ProductPrice::INTERVAL_DROPDOWN_OPTIONS, {}, { class: 'select-style' } %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :interval, value: ProductPrice::LIFETIME %>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lookup_key %>
+    <%= form.text_field :lookup_key %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to Prices', admin_product_product_prices_path(product) %>

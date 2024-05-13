@@ -1,0 +1,13 @@
+<div>
+  <%= link_to 'Home', root_path %>
+  <% if super_admin? %>
+    <%= link_to 'Admin', admin_root_path %>
+  <% end %>
+  <% if signed_in? %>
+    Signed in as: <%= current_user.email %>
+    <%= button_to 'Billing Portal', stripe_billing_portal_sessions_path, data: { turbo: false } %>
+    <%= button_to 'Sign out', sign_out_path, method: :delete %>
+  <% else %>
+    <%= link_to 'Sign in', sign_in_path %>
+  <% end %>
+</div>

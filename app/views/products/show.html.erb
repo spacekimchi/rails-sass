@@ -1,0 +1,28 @@
+<h1>Name: <%= @product.name %></h1>
+<p>Description: <%= @product.description %></p>
+<p>Subscription based?: <%= @product.for_subscription? %></p>
+<p>Already Subscribed?: <%= @is_user_already_subscribed %></p> 
+
+<table>
+  <thead>
+    <tr>
+      <th>Interval</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @product_prices.each do |product_price| %>
+      <tr>
+        <td><%= product_price.interval %></td>
+        <td><%= product_price.price %></td>
+        <td>
+          <% if !@is_user_already_subscribed %>
+            <%= link_to 'Purchase this product', new_checkout_path(product_price_id: product_price.id) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back', products_path %>

@@ -1,0 +1,9 @@
+<h1>Name: <%= @product.name %></h1>
+<p>Description: <%= @product.description %></p>
+<p>Stripe product ID: <%= @product.stripe_product_id %></p>
+<%= link_to 'Edit', edit_admin_product_path(@product) %> |
+<%= link_to 'Product Prices', admin_product_product_prices_path(@product) %> |
+<%= link_to 'Back', admin_products_path %>
+<div>
+  <%= link_to 'New Product Price', new_admin_product_product_price_path(@product) %>
+</div>

@@ -1,0 +1,9 @@
+<h1>Name: <%= @product_price.name %></h1>
+<p>Description: <%= @product_price.description %></p>
+<p>Lookup key: <%= @product_price.lookup_key %></p>
+<p>Stripe price ID: <%= @product_price.stripe_price_id %></p>
+<p>Price: <%= @product_price.price %></p>
+<p>Active: <%= @product_price.is_active %></p>
+<p>Interval: <%= @product_price.interval %></p>
+<%= link_to 'Edit', edit_admin_product_product_price_path(@product, @product_price) %> |
+<%= link_to 'Back', admin_product_product_prices_path %>

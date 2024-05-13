@@ -1,0 +1,38 @@
+<h1>Prices for <%= @product.name %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stripe Price ID</th>
+      <th>Active</th>
+      <th>Price</th>
+      <th>Interval</th>
+      <th>Lookup Key</th>
+      <th>Sync with Stripe</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @product_prices.each do |product_price| %>
+      <tr>
+        <td><%= product_price.stripe_price_id %></td>
+        <td><%= product_price.is_active %></td>
+        <td><%= product_price.price %></td>
+        <td><%= product_price.interval %></td>
+        <td><%= product_price.lookup_key %></td>
+        <td>
+          <% if product_price.stripe_price_id.present? %>
+            <%= button_to 'Sync with Stripe', admin_stripe_prices_path, method: :put, data: {disable_with: 'Submitting...'}, params: {product_id: @product.id, product_price_id: product_price.id} %>
+          <% else %>
+            <%= button_to 'Sync with Stripe', admin_stripe_prices_path, method: :post, data: {disable_with: 'Submitting...'}, params: {product_id: @product.id, product_price_id: product_price.id} %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Show', admin_product_product_price_path(@product, product_price) %></td>
+        <td><%= link_to 'Edit', edit_admin_product_product_price_path(@product, product_price) %></td>
+        <td><%= button_to 'Destroy', admin_product_product_price_path(@product, product_price), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Price', new_admin_product_product_price_path(@product) %>

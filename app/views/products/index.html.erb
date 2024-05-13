@@ -1,0 +1,27 @@
+<h1>Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subscription Based</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td>
+          <%= product.for_subscription? %>
+        </td>
+        <td><%= link_to 'Show', product_path(product) %></td>
+        <td>
+          <% if @user_subscriptions.include?(product.id) %>
+            You have an active subscription of this product
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
