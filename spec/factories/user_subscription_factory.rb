@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: user_subscriptions
+#
+#  id                     :bigint           not null, primary key
+#  user_id                :bigint           not null
+#  product_id             :bigint
+#  product_price_id       :bigint
+#  stripe_subscription_id :string(128)
+#  status                 :string
+#  current_period_start   :bigint
+#  current_period_end     :bigint
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
 FactoryBot.define do
   factory :user_subscription do
     association :user

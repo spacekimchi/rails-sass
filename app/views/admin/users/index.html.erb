@@ -1,0 +1,36 @@
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Email</th>
+      <th>Username</th>
+      <th>Stripe Customer ID</th>
+      <th>Activation_token</th>
+      <th>Activated At</th>
+      <th>Admin?</th>
+      <th>Super Admin?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email %></td>
+        <td><%= user.username %></td>
+        <td><%= user.stripe_customer_id %></td>
+        <td><%= user.activation_token %></td>
+        <td><%= user.activated_at %></td>
+        <td id="admin-toggle-<%= user.id %>">
+          <%= render partial: 'admin_toggle', locals: { user: user } %>
+        </td>
+        <td id="super-admin-toggle-<%= user.id %>">
+          <%= render partial: 'super_admin_toggle', locals: { user: user } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New User', new_admin_user_path %>

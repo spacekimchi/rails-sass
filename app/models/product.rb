@@ -9,14 +9,14 @@
 #  stripe_product_id :string(128)
 #  name              :string(128)      not null
 #  description       :string
+#  for_subscription  :boolean          default(TRUE), not null
 #  is_active         :boolean          default(TRUE), not null
-#  lookup_key        :string(128)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
 class Product < ApplicationRecord
   STRIPE_ID_PREFIX = 'product_'.freeze
-  has_many :product_prices
+  has_many :product_prices, dependent: :destroy
 
   scope :active, -> {
     where(is_active: true)

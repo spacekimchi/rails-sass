@@ -5,11 +5,14 @@
 #  id                 :bigint           not null, primary key
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  username           :string           not null
 #  email              :string           not null
 #  encrypted_password :string(128)      not null
 #  confirmation_token :string(128)
 #  remember_token     :string(128)      not null
-#  stripe_customer_id :string(128)
+#  activation_token   :string           not null
+#  stripe_customer_id :string
+#  activated_at       :datetime
 #
 class User < ApplicationRecord
   include Clearance::User
@@ -25,7 +28,6 @@ class User < ApplicationRecord
   }
 
   before_create :generate_activation_token
-  after_create :create_stripe_customer
 
   def generate_activation_token
     self.activation_token = SecureRandom.hex(10)
@@ -33,6 +35,7 @@ class User < ApplicationRecord
 
   def activate
     update(activated_at: Time.current)
+    create_stripe_customer
   end
 
   def activated?
@@ -52,11 +55,45 @@ class User < ApplicationRecord
   end
 
   def admin?
-    roles.admin.present? || roles.super_admin.present?
+    roles.admin.present?
   end
 
   def super_admin?
     roles.super_admin.present?
+  end
+
+  def make_admin
+    return if admin?
+    user_roles.create(role: Role.admin)
+  end
+
+  def make_super_admin
+    return if super_admin?
+    user_roles.create(role: Role.super_admin)
+  end
+
+  def remove_admin
+    user_roles.where(role: Role.admin).destroy_all
+  end
+
+  def remove_super_admin
+    user_roles.where(role: Role.super_admin).destroy_all
+  end
+
+  def toggle_admin
+    if admin?
+      remove_admin
+    else
+      make_admin
+    end
+  end
+
+  def toggle_super_admin
+    if admin?
+      remove_super_admin
+    else
+      make_super_admin
+    end
   end
 
   def is_subscribed_to_product?(product)

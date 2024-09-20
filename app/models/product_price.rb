@@ -3,7 +3,7 @@
 # Table name: product_prices
 #
 #  id              :bigint           not null, primary key
-#  product_id         :bigint           not null
+#  product_id      :bigint           not null
 #  stripe_price_id :string(128)
 #  name            :string(128)      not null
 #  price           :integer          default(0), not null
@@ -11,7 +11,7 @@
 #  interval        :integer          not null
 #  description     :string
 #  lookup_key      :string(128)
-#  currency        :string           default('usd')
+#  currency        :string           default("usd")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -34,8 +34,7 @@ class ProductPrice < ApplicationRecord
 
   def create_stripe_price
     return if product.stripe_product_id.nil? || stripe_price_id.present?
-    Stripe::Price.create(
-      {
+    params = {
         currency: currency,
         active: is_active,
         metadata: metadata,
@@ -46,7 +45,9 @@ class ProductPrice < ApplicationRecord
         unit_amount: price,
         recurring: calculate_recurring
       }
-    )
+    price = Stripe::Price.create(params)
+    self.update(stripe_price_id: price.id)
+    price
   rescue Stripe::InvalidRequestError => e
     # TODO: Somehow make this email or track the errors somehow and notify me
   rescue Stripe::StripeError => e

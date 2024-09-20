@@ -10,46 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_12_055709) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_01_025525) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "accounts", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name", null: false
-    t.boolean "is_visible", default: true, null: false
-    t.boolean "is_sim", default: false, null: false
-    t.boolean "is_pa", default: false, null: false
-    t.boolean "is_active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_accounts_on_user_id"
-  end
-
-  create_table "executions", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.bigint "trade_id"
-    t.string "execution_id", null: false
-    t.string "order_id", null: false
-    t.string "ticker", null: false
-    t.decimal "fill_time", null: false
-    t.float "commission", null: false
-    t.float "price", null: false
-    t.integer "quantity", null: false
-    t.boolean "is_entry", null: false
-    t.boolean "is_buy", null: false
-    t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_executions_on_account_id"
-    t.index ["execution_id"], name: "index_executions_on_execution_id", unique: true
-    t.index ["trade_id"], name: "index_executions_on_trade_id"
-    t.index ["user_id", "account_id"], name: "index_executions_on_user_id_and_account_id"
-    t.index ["user_id", "fill_time"], name: "index_executions_on_user_id_and_fill_time"
-    t.index ["user_id", "trade_id"], name: "index_executions_on_user_id_and_trade_id"
-    t.index ["user_id"], name: "index_executions_on_user_id"
-  end
 
   create_table "product_prices", force: :cascade do |t|
     t.bigint "product_id", null: false
@@ -97,25 +60,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_12_055709) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "trades", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.string "ticker", null: false
-    t.decimal "entry_time", null: false
-    t.decimal "exit_time", null: false
-    t.float "commission", null: false
-    t.float "pnl", default: 0.0, null: false
-    t.boolean "is_long", null: false
-    t.boolean "is_open", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_trades_on_account_id"
-    t.index ["user_id", "account_id"], name: "index_trades_on_user_id_and_account_id"
-    t.index ["user_id", "entry_time"], name: "index_trades_on_user_id_and_entry_time"
-    t.index ["user_id", "exit_time"], name: "index_trades_on_user_id_and_exit_time"
-    t.index ["user_id"], name: "index_trades_on_user_id"
-  end
-
   create_table "user_roles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "role_id", null: false
@@ -144,28 +88,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_12_055709) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username", null: false
     t.string "email", null: false
     t.string "encrypted_password", limit: 128, null: false
     t.string "confirmation_token", limit: 128
     t.string "remember_token", limit: 128, null: false
     t.string "activation_token", null: false
-    t.string "ninja_trader_id"
     t.string "stripe_customer_id"
     t.datetime "activated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["ninja_trader_id"], name: "index_users_on_ninja_trader_id", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
   end
 
-  add_foreign_key "accounts", "users"
-  add_foreign_key "executions", "accounts"
-  add_foreign_key "executions", "trades"
-  add_foreign_key "executions", "users"
   add_foreign_key "product_prices", "products"
-  add_foreign_key "trades", "accounts"
-  add_foreign_key "trades", "users"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
   add_foreign_key "user_subscriptions", "product_prices"

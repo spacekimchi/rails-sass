@@ -73,8 +73,7 @@ services:
 
 volumes:
   redisdata: {}
-  pgdata:
-    external: true
+  pgdata: {}
 
 # The networks limit communication between Docker containers to only the ones defined in the same network
 networks:

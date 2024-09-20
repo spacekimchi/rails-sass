@@ -32,6 +32,13 @@ Rails.application.routes.draw do
         resources :product_prices
       end
 
+      resources :users do
+        member do
+          post :toggle_admin
+          post :toggle_super_admin
+        end
+      end
+
       namespace :stripe do
         get 'products', to: 'products#index'
         get 'product/:id', to: 'products#show'
@@ -65,10 +72,4 @@ Rails.application.routes.draw do
 
   resource :checkout, only: %i[new show]
   resources :products, only: %i[index show]
-
-  resources :trades, only: %i[index show edit update]
-  resources :executions, only: %i[index show edit update]
-  resources :accounts, only: %i[index show edit update]
-
-  resource :ninja_trader_executions, only: %i[create]
 end

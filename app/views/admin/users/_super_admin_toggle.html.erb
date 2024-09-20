@@ -1,0 +1,5 @@
+<%= button_to user.super_admin? ? 'Untoggle Super Admin' : 'Make Super Admin',
+              toggle_super_admin_admin_user_path(user),
+              method: :post,
+              form: { data: { turbo_stream: true } },
+              class: "btn #{user.admin? ? 'btn-danger' : 'btn-success'}" %>

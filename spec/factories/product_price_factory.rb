@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: product_prices
+#
+#  id              :bigint           not null, primary key
+#  product_id      :bigint           not null
+#  stripe_price_id :string(128)
+#  name            :string(128)      not null
+#  price           :integer          default(0), not null
+#  is_active       :boolean          default(TRUE), not null
+#  interval        :integer          not null
+#  description     :string
+#  lookup_key      :string(128)
+#  currency        :string           default("usd")
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 FactoryBot.define do
   factory :product_price do
     association :product

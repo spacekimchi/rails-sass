@@ -5,8 +5,9 @@
 #  id                 :bigint           not null, primary key
 #  message            :string
 #  stripe_customer_id :string
-#  is_resolved        :boolean          default(FALSE)
 #  event_object       :json
+#  event_type         :string
+#  is_resolved        :boolean          default(FALSE)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

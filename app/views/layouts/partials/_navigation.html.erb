@@ -1,13 +1,20 @@
-<div>
+<nav id="top-nav">
   <%= link_to 'Home', root_path %>
-  <% if super_admin? %>
-    <%= link_to 'Admin', admin_root_path %>
+  <%= link_to 'Admin', admin_root_path %>
+  <% if admin_route? %>
+    <%= link_to 'Users', admin_users_path %>
+    <%= link_to 'Prices', admin_stripe_prices_path %>
+    <%= link_to 'Products', admin_products_path %>
+  <% else %>
+    <%= link_to 'Products', products_path %>
   <% end %>
   <% if signed_in? %>
-    Signed in as: <%= current_user.email %>
-    <%= button_to 'Billing Portal', stripe_billing_portal_sessions_path, data: { turbo: false } %>
-    <%= button_to 'Sign out', sign_out_path, method: :delete %>
+    <span class="nav-right-actions">
+      Signed in as: <%= current_user.email %>
+      <%= button_to 'Billing Portal', stripe_billing_portal_sessions_path, data: { turbo: false } %>
+      <%= button_to 'Sign out', sign_out_path, method: :delete %>
+    </span>
   <% else %>
     <%= link_to 'Sign in', sign_in_path %>
   <% end %>
-</div>
+</nav>

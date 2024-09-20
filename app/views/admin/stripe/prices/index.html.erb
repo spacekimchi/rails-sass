@@ -15,6 +15,6 @@
     <div>
       nickname: <%= price.nickname %>
     </div>
-    <%= button_to 'Subscribe', stripe_checkout_sessions_path(price_id: price.id, type: price.type), data: { turbo: false } %>
+    <%= button_to 'Subscribe', stripe_billing_portal_sessions_path(price_id: price.id, type: price.type), data: { turbo: false } %>
   </div>
 <% end %>

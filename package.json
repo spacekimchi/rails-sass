@@ -7,6 +7,10 @@
     "sass": "^1.75.0"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "watch:scss": "nodemon -e scss -x 'npm run build:css'"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.6"
   }
 }

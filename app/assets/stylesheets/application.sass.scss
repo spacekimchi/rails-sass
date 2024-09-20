@@ -1,6 +1,10 @@
-// Entry point for your Sass build
+@import "variables";
+@import "flash";
+@import "navigation";
 
 body {
     max-width: 1080px;
+    background-color: black;
+    color: white;
     margin: auto;
 }

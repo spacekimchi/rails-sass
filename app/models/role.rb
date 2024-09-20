@@ -21,6 +21,14 @@ class Role < ApplicationRecord
   # Validates that the name is included in the keys of the enum definition
   validates :name, inclusion: { in: names.keys }
 
+  def self.admin
+    Role.find_by(name: ADMIN)
+  end
+
+  def self.super_admin
+    Role.find_by(name: SUPER_ADMIN)
+  end
+
   def admin?
     name == ADMIN
   end

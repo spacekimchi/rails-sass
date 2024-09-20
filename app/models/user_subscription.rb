@@ -4,16 +4,15 @@
 #
 #  id                     :bigint           not null, primary key
 #  user_id                :bigint           not null
+#  product_id             :bigint
+#  product_price_id       :bigint
 #  stripe_subscription_id :string(128)
-#  status                 :string(128)
-#  description            :string
-#  interval               :string
-#  current_period_start   :integer
-#  current_period_end     :integer
+#  status                 :string
+#  current_period_start   :bigint
+#  current_period_end     :bigint
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-# If there is no stripe_subscription_id, it means it was a one_time payment and is for the lifetime subscription
 class UserSubscription < ApplicationRecord
   FREQUENCIES = {
     MONTHLY: 'monthly'.freeze,

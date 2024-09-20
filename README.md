@@ -42,7 +42,7 @@ To find all .swp files, run: `find . -type f -name "*.swp"`
 
 The project uses a PostgreSQL 16 database.
 
-To run migrations, you can run `docker-compose exec web rails db:migrate`. Note that `web` is the name of the docker container running the webapp.
+To run migrations, you can run `docker-compose exec web bundle exec rails db:migrate`. Note that `web` is the name of the docker container running the webapp.
 
 We can pass commands to the docker container using `docker-compose exec` followed by the command we want to run. For example, we can run `docker-compose exec web bundle exec rails generate clearance:install` to run the install script for clearance.
 
@@ -58,6 +58,14 @@ Different stripe webhooks events can be triggered with `stripe trigger customer.
 # Stylesheets
 
 Run `yarn build:css` to compile scss into css
+
+To get scss to autocompile during developent, install: `npm install nodemon --save-dev`
+
+After installing, run `npm run watch:scss`
+
+# Annotate models with
+
+`docker-compose exec web bundle exec annotate --models`
 
 # Deployment instructions
 

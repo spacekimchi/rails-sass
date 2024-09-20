@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "admin-toggle-#{@user.id}" do %>
+  <td id="admin-toggle-<%= @user.id %>">
+    <%= render partial: 'admin_toggle', locals: { user: @user } %>
+  </td>
+<% end %>
