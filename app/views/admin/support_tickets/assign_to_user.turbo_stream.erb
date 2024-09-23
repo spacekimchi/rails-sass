@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "assigned-to-#{@support_ticket.id}" do %>
+  <td id="assigned-to-<%= @support_ticket.id %>">
+    <%= render partial: 'assign_to_user', locals: { support_ticket: @support_ticket } %>
+  </td>
+<% end %>
+
+<%= turbo_stream.replace 'flash' do %>
+  <%= render partial: 'layouts/partials/flash' %>
+<% end %>

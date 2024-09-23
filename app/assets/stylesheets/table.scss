@@ -1,0 +1,17 @@
+table {
+    th {
+        border-bottom: solid 1px black;
+    }
+    tbody {
+        tr:not(:last-child) {
+            td {
+                border-bottom: solid 1px black;
+            }
+        }
+        td {
+            padding: 3px;
+            text-align: center;
+        }
+    }
+}
+

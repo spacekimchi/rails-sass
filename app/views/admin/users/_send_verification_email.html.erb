@@ -1,0 +1,9 @@
+<% if user.verified? %>
+  <%= user.verified_at %>
+<% else %>
+  <%= button_to 'Send Verification Email',
+    send_verification_email_admin_user_path(user),
+    method: :post,
+    form: { data: { turbo_stream: true } },
+    class: "btn #{user.admin? ? 'btn-danger' : 'btn-success'}" %>
+<% end %>

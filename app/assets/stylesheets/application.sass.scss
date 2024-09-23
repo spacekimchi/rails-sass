@@ -1,10 +1,12 @@
 @import "variables";
+@import "table";
 @import "flash";
 @import "navigation";
 
 body {
     max-width: 1080px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     margin: auto;
 }
+

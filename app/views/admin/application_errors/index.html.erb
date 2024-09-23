@@ -1,0 +1,46 @@
+<h1>Application Errors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Level</th>
+      <th>Code</th>
+      <th>Calling Function</th>
+      <th>User ID</th>
+      <th>User IP</th>
+      <th>Resolved At</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @application_errors.each do |application_error| %>
+      <tr>
+        <td>
+          <%= application_error.id %>
+        </td>
+        <td>
+          <%= application_error.level %>
+        </td>
+        <td>
+          <%= application_error.code %>
+        </td>
+        <td>
+          <%= application_error.calling_function %>
+        </td>
+        <td>
+          <%= application_error.user_id %>
+        </td>
+        <td>
+          <%= application_error.user_ip %>
+        </td>
+        <td>
+          <%= application_error.resolved_at %>
+        </td>
+        <td>
+          <%= application_error.created_at %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

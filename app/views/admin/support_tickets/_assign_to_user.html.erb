@@ -1,0 +1,16 @@
+<% if support_ticket.assigned_to_id.present? %>
+  <%= support_ticket.assigned_to_id %>
+  <%= button_to 'X',
+    assign_to_user_admin_support_ticket_path(support_ticket),
+    method: :post,
+    params: { user_id: nil },
+    form: { data: { turbo_stream: true } },
+    class: "btn" %>
+<% else %>
+  <%= button_to 'Assign to me',
+    assign_to_user_admin_support_ticket_path(support_ticket),
+    method: :post,
+    params: { user_id: current_user.id },
+    form: { data: { turbo_stream: true } },
+    class: "btn" %>
+<% end %>

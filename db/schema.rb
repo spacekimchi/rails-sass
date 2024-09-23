@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_01_025525) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_21_204149) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "application_errors", force: :cascade do |t|
+    t.text "message"
+    t.integer "level"
+    t.integer "code"
+    t.text "calling_function"
+    t.text "stack_trace"
+    t.text "url"
+    t.text "user_id"
+    t.text "user_ip"
+    t.text "user_agent"
+    t.boolean "is_resolved"
+    t.datetime "resolved_at"
+    t.text "notes"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "product_prices", force: :cascade do |t|
     t.bigint "product_id", null: false
@@ -60,6 +78,36 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_025525) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "support_ticket_messages", force: :cascade do |t|
+    t.bigint "support_ticket_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content", null: false
+    t.text "recipient_email"
+    t.boolean "internal", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["support_ticket_id"], name: "index_support_ticket_messages_on_support_ticket_id"
+    t.index ["user_id"], name: "index_support_ticket_messages_on_user_id"
+  end
+
+  create_table "support_tickets", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "author_email", null: false
+    t.string "subject", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "priority", default: 0, null: false
+    t.text "content", null: false
+    t.datetime "resolved_at"
+    t.bigint "assigned_to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assigned_to_id"], name: "index_support_tickets_on_assigned_to_id"
+    t.index ["author_email"], name: "index_support_tickets_on_author_email"
+    t.index ["priority"], name: "index_support_tickets_on_priority"
+    t.index ["status"], name: "index_support_tickets_on_status"
+    t.index ["user_id"], name: "index_support_tickets_on_user_id"
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "role_id", null: false
@@ -93,9 +141,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_025525) do
     t.string "encrypted_password", limit: 128, null: false
     t.string "confirmation_token", limit: 128
     t.string "remember_token", limit: 128, null: false
-    t.string "activation_token", null: false
     t.string "stripe_customer_id"
-    t.datetime "activated_at"
+    t.string "verification_token"
+    t.datetime "verified_at"
+    t.datetime "verified_requested_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
@@ -103,6 +152,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_025525) do
   end
 
   add_foreign_key "product_prices", "products"
+  add_foreign_key "support_ticket_messages", "support_tickets"
+  add_foreign_key "support_ticket_messages", "users"
+  add_foreign_key "support_tickets", "users"
+  add_foreign_key "support_tickets", "users", column: "assigned_to_id"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
   add_foreign_key "user_subscriptions", "product_prices"

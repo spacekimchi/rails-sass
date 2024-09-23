@@ -7,9 +7,10 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :encrypted_password, limit: 128, null: false
       t.string :confirmation_token, limit: 128
       t.string :remember_token, limit: 128, null: false
-      t.string :activation_token, null: false
       t.string :stripe_customer_id
-      t.datetime :activated_at
+      t.string :verification_token
+      t.datetime :verified_at
+      t.datetime :verified_requested_at
     end
 
     add_index :users, :stripe_customer_id, unique: true

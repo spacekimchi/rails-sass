@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "send-verification-email-#{@user.id}" do %>
+  <td id="send-verification-email-<%= @user.id %>">
+    <%= render partial: 'send_verification_email', locals: { user: @user } %>
+  </td>
+<% end %>

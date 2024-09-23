@@ -1,12 +1,17 @@
 <nav id="top-nav">
   <%= link_to 'Home', root_path %>
-  <%= link_to 'Admin', admin_root_path %>
+  <% if current_user&.super_admin? %>
+    <%= link_to 'Admin', admin_root_path %>
+  <% end %>
   <% if admin_route? %>
     <%= link_to 'Users', admin_users_path %>
-    <%= link_to 'Prices', admin_stripe_prices_path %>
     <%= link_to 'Products', admin_products_path %>
+    <%= link_to 'Prices', admin_stripe_prices_path %>
+    <%= link_to 'Support', admin_support_tickets_path %>
+    <%= link_to 'Errors', admin_application_errors_path %>
   <% else %>
     <%= link_to 'Products', products_path %>
+    <%= link_to 'Support', new_support_tickets_path %>
   <% end %>
   <% if signed_in? %>
     <span class="nav-right-actions">

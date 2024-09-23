@@ -56,6 +56,14 @@ module Admin
       end
     end
 
+    def send_verification_email
+      @user = User.find(params[:id])
+      UserMailer.send_verification_email(@user).deliver_later!
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
+
     private
 
     def user_params

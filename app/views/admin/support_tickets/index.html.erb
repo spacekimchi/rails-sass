@@ -1,0 +1,58 @@
+<h1>Support Tickets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>User ID</th>
+      <th>Subject</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Content</th>
+      <th>Assigned To</th>
+      <th>Resolved At</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @support_tickets.each do |support_ticket| %>
+      <tr>
+        <td>
+          <%= support_ticket.author_email %>
+        </td>
+        <td>
+          <%= support_ticket.user_id %>
+        </td>
+        <td>
+          <%= support_ticket.subject %>
+        </td>
+        <td>
+          <%= support_ticket.status %>
+          &nbsp;
+          in progress
+          &nbsp;
+          closed
+        </td>
+        <td>
+          <%= support_ticket.priority %>
+          &nbsp;
+          medium
+          &nbsp;
+          high
+        </td>
+        <td>
+          <%= support_ticket.content %>
+        </td>
+        <td id="assigned-to-<%= support_ticket.id %>">
+          <%= render partial: 'assign_to_user', locals: { support_ticket: support_ticket } %>
+        </td>
+        <td>
+          <%= support_ticket.resolved_at %>
+        </td>
+        <td>
+          <%= support_ticket.created_at %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

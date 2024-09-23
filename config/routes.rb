@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   delete "/sign_out" => "sessions#destroy", as: "sign_out"
   get "/sign_up" => "users#new", as: "sign_up"
 
-  resources :activations, only: [:edit], param: :activation_token
+  resources :verification, only: [:edit], param: :verification_token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # An example of using clearance to put route guarding in the routes level
@@ -36,8 +36,17 @@ Rails.application.routes.draw do
         member do
           post :toggle_admin
           post :toggle_super_admin
+          post :send_verification_email
         end
       end
+
+      resources :support_tickets, only: %i[index] do
+        member do
+          post :assign_to_user
+        end
+      end
+
+      resources :application_errors, only: %i[index]
 
       namespace :stripe do
         get 'products', to: 'products#index'
@@ -72,4 +81,6 @@ Rails.application.routes.draw do
 
   resource :checkout, only: %i[new show]
   resources :products, only: %i[index show]
+
+  resource :support_tickets, only: %i[new create]
 end

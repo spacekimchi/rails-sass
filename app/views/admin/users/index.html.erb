@@ -7,8 +7,8 @@
       <th>Email</th>
       <th>Username</th>
       <th>Stripe Customer ID</th>
-      <th>Activation_token</th>
-      <th>Activated At</th>
+      <th>Verification Token</th>
+      <th>Verified At</th>
       <th>Admin?</th>
       <th>Super Admin?</th>
     </tr>
@@ -20,8 +20,10 @@
         <td><%= user.email %></td>
         <td><%= user.username %></td>
         <td><%= user.stripe_customer_id %></td>
-        <td><%= user.activation_token %></td>
-        <td><%= user.activated_at %></td>
+        <td><%= user.verification_token %></td>
+        <td id="send-verification-email-<%= user.id %>">
+          <%= render partial: 'send_verification_email', locals: { user: user } %>
+        </td>
         <td id="admin-toggle-<%= user.id %>">
           <%= render partial: 'admin_toggle', locals: { user: user } %>
         </td>

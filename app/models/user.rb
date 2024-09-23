@@ -2,17 +2,18 @@
 #
 # Table name: users
 #
-#  id                 :bigint           not null, primary key
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  username           :string           not null
-#  email              :string           not null
-#  encrypted_password :string(128)      not null
-#  confirmation_token :string(128)
-#  remember_token     :string(128)      not null
-#  activation_token   :string           not null
-#  stripe_customer_id :string
-#  activated_at       :datetime
+#  id                    :bigint           not null, primary key
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  username              :string           not null
+#  email                 :string           not null
+#  encrypted_password    :string(128)      not null
+#  confirmation_token    :string(128)
+#  remember_token        :string(128)      not null
+#  stripe_customer_id    :string
+#  verification_token    :string
+#  verified_at           :datetime
+#  verified_requested_at :datetime
 #
 class User < ApplicationRecord
   include Clearance::User
@@ -27,19 +28,17 @@ class User < ApplicationRecord
       .where('current_period_end > ?', StripeService.get_stripe_time_now)
   }
 
-  before_create :generate_activation_token
-
-  def generate_activation_token
-    self.activation_token = SecureRandom.hex(10)
+  def generate_verification_token
+    update(verification_token: SecureRandom.hex(3))
   end
 
-  def activate
-    update(activated_at: Time.current)
+  def complete_verification
+    update(verified_at: Time.current)
     create_stripe_customer
   end
 
-  def activated?
-    activated_at.present?
+  def verified?
+    verified_at.present?
   end
 
   def create_stripe_customer

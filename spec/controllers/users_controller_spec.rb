@@ -15,13 +15,13 @@ RSpec.describe UsersController, type: :controller do
     let(:user_params) { { user: { email: Faker::Internet.email, password: Faker::Internet.password } } }
 
     it 'sends an activation email after creating a user' do
-      allow(UserMailer).to receive(:activation_needed_email).and_call_original
+      allow(UserMailer).to receive(:send_activation_email).and_call_original
 
       expect {
         post :create, params: user_params
       }.to have_enqueued_job.exactly(:once).and have_enqueued_job(ActionMailer::MailDeliveryJob)
 
-      expect(UserMailer).to have_received(:activation_needed_email).with(User.find_by(email: user_params[:user][:email]))
+      expect(UserMailer).to have_received(:send_activation_email).with(User.find_by(email: user_params[:user][:email]))
     end
 
     it 'does not send an email if the user creation fails' do

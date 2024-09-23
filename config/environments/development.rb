@@ -41,6 +41,8 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
+  # We use _web here instead of just letter_opener because we are running in a docker container
+  # Visit localhost:3000/letter_opener to see sent email
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
 
