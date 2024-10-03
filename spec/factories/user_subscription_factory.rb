@@ -30,5 +30,9 @@ FactoryBot.define do
       current_period_start { Time.now.to_i }
       current_period_end { 100.years.from_now.to_i }
     end
+
+    trait :canceled do
+      status { UserSubscription::STATUSES[:CANCELED] }
+    end
   end
 end

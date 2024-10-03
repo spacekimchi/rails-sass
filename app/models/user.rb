@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :roles, through: :user_roles
   has_many :user_subscriptions, dependent: :destroy
+  has_many :support_tickets, dependent: :destroy
 
   scope :active_users, lambda {
     joins(:user_subscriptions)
@@ -29,11 +30,11 @@ class User < ApplicationRecord
   }
 
   def generate_verification_token
-    update(verification_token: SecureRandom.hex(3))
+    update_column(:verification_token, SecureRandom.hex(3))
   end
 
   def complete_verification
-    update(verified_at: Time.current)
+    update_column(:verified_at, Time.current)
     create_stripe_customer
   end
 
@@ -44,11 +45,22 @@ class User < ApplicationRecord
   def create_stripe_customer
     # TODO: Remove this function from a after_create callback.
     # Try not to use any after_create callbacks. It gets hard to debug
-    return if stripe_customer_id.present? || Rails.env.test?
-    Stripe::Customer.create(email: email, metadata: { user_id: id })
+    return if stripe_customer_id.present?
+    stripe_customer = Stripe::Customer.create(email: email, metadata: { user_id: id })
+    update_column(:stripe_customer_id, stripe_customer.id)
+    stripe_customer
   rescue Stripe::InvalidRequestError => e
     # TODO: Somehow make this email or track the errors somehow and notify me
-    puts "An invalid request occurred. error: #{e}"
+    application_error_params = {
+      message: "An invalid request occurred. error: #{$!}",
+      calling_function: 'create_stripe_customer',
+      user_id: id,
+      data: {
+        email: email,
+        user_id: id
+      }
+    }
+    ApplicationError.new(application_error_params).with_backtrace_from_error(e).save
   rescue Stripe::StripeError => e
     puts "Another problem occurred, maybe unrelated to Stripe. error: #{e}"
   end
@@ -88,7 +100,7 @@ class User < ApplicationRecord
   end
 
   def toggle_super_admin
-    if admin?
+    if super_admin?
       remove_super_admin
     else
       make_super_admin

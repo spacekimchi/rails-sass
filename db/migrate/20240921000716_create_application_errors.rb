@@ -1,11 +1,10 @@
 class CreateApplicationErrors < ActiveRecord::Migration[7.1]
   def change
     create_table :application_errors do |t|
-      t.text :message
-      t.integer :level # enum
-      t.integer :code
+      t.text :message, null: false
+      t.integer :level, null: false, default: 0
       t.text :calling_function
-      t.text :stack_trace
+      t.text :backtrace
       t.text :url
       t.text :user_id
       t.text :user_ip

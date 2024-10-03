@@ -18,7 +18,20 @@
 FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
+    username { Faker::Internet.username }
     password { Faker::Internet.password }
     remember_token { Faker::Internet.password }
+
+    trait :with_admin do
+      after(:create) do |user|
+        create(:user_role, :with_admin, user: user)
+      end
+    end
+
+    trait :with_super_admin do
+      after(:create) do |user|
+        create(:user_role, :with_super_admin, user: user)
+      end
+    end
   end
 end

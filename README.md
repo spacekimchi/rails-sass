@@ -77,7 +77,9 @@ The project uses RSpec for testing.
 
 To run tests we are using Docker. This gives the advantage of having tests, development, and production all run in the same environment
 
-Run tests with this command: `docker-compose run -e "RAILS_ENV=test" web bundle exec rspec spec/models/role_spec.rb`
+Run this to create and migrate the test database if it doesn't exist: `docker-compose run --rm -e "RAILS_ENV=test" web bundle exec rails db:create`
+
+Run tests with this command: `docker-compose run --rm -e "RAILS_ENV=test" web bundle exec rspec spec/models/role_spec.rb`
 
 # Deploying the application
 
