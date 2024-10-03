@@ -46,7 +46,7 @@ class ProductPrice < ApplicationRecord
         recurring: calculate_recurring
       }
     price = Stripe::Price.create(params)
-    self.update(stripe_price_id: price.id)
+    update_column(:stripe_price_id, price.id)
     price
   rescue Stripe::InvalidRequestError => e
     # TODO: Somehow make this email or track the errors somehow and notify me

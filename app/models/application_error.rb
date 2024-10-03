@@ -20,4 +20,10 @@
 #  updated_at       :datetime         not null
 #
 class ApplicationError < ApplicationRecord
+  enum level: { triage: 0, low: 1, medium: 2, high: 3, critical: 4 }
+
+  def with_backtrace_from_error(e)
+    self.backtrace = "\n\t#{e.backtrace.join("\n\t")}"
+    self
+  end
 end

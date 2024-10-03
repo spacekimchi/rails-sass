@@ -15,11 +15,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_21_204149) do
   enable_extension "plpgsql"
 
   create_table "application_errors", force: :cascade do |t|
-    t.text "message"
-    t.integer "level"
-    t.integer "code"
+    t.text "message", null: false
+    t.integer "level", default: 0, null: false
     t.text "calling_function"
-    t.text "stack_trace"
+    t.text "backtrace"
     t.text "url"
     t.text "user_id"
     t.text "user_ip"

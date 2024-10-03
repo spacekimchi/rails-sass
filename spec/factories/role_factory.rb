@@ -15,12 +15,12 @@ FactoryBot.define do
 
     trait :admin do
       name { Role::ADMIN }
-      description { 'This is an admin user' }
+      description { Faker::Lorem.sentence }
     end
 
     trait :super_admin do
       name { Role::SUPER_ADMIN }
-      description { 'This is a super admin user' }
+      description { Faker::Lorem.sentence }
     end
   end
 end

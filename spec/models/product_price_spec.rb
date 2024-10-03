@@ -35,7 +35,7 @@ RSpec.describe ProductPrice, type: :model do
   end
   describe "#calculate_recurring" do
     context "when the price interval is lifetime" do
-      let(:lifetime_price) { create(:product_price, interval: 'lifetime') }
+      let(:lifetime_price) { create(:product_price, interval: ProductPrice::LIFETIME) }
 
       it "returns nil" do
         expect(lifetime_price.calculate_recurring).to be_nil
@@ -71,6 +71,7 @@ RSpec.describe ProductPrice, type: :model do
       expect(Stripe::Price).to have_received(:create).once
     end
   end
+
   describe "#create_stripe_price" do
     let(:product_price) { create(:product_price, stripe_price_id: nil) }
 
@@ -80,6 +81,28 @@ RSpec.describe ProductPrice, type: :model do
     end
   end
 
+  describe '#mode' do
+    context 'when interval is lifetime' do
+      let(:product_price) { create(:product_price, interval: ProductPrice::LIFETIME) }
 
+      it 'should return it is a one time payment' do
+        expect(product_price.mode).to eq(ProductPrice::PAYMENT)
+      end
+    end
+
+    context 'when interval is something other than lifetime' do
+      let(:product_price) { create(:product_price, interval: 'month') }
+
+      it 'should return it is a subscription' do
+        expect(product_price.mode).to eq(ProductPrice::SUBSCRIPTION)
+      end
+    end
+  end
+
+  describe '#lifetime?' do
+  end
+
+  describe '#for_subscription?' do
+  end
 end
 

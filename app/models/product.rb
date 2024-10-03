@@ -1,6 +1,3 @@
-# This model is supposed to represent products on Stripe.
-# I was having problems with naming the class Product with the stripe gem,
-# so I just called mine Product.
 # == Schema Information
 #
 # Table name: products
