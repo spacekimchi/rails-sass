@@ -1,0 +1,35 @@
+table th {
+  border-bottom: solid 1px black;
+}
+table tbody tr:not(:last-child) td {
+  border-bottom: solid 1px black;
+}
+table tbody td {
+  padding: 3px;
+  text-align: center;
+}
+
+#flash {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+nav#top-nav {
+  display: flex;
+  align-items: center;
+}
+nav#top-nav > * {
+  padding: 5px;
+}
+
+.nav-right-actions {
+  margin-left: auto;
+}
+
+body {
+  max-width: 1080px;
+  background-color: white;
+  color: black;
+  margin: auto;
+}
