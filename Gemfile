@@ -34,10 +34,8 @@ gem "clearance"
 # For payments
 gem "stripe"
 
-# For background jobs
-gem "sidekiq"
-# Sidekiq uses redis
-gem "redis"
+# GoodJob for job processing
+gem "good_job"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

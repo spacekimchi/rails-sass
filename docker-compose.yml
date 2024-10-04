@@ -1,12 +1,12 @@
+version: '3.8'  # Add this line at the top
+
 services:
   # PostgreSQL container
   db:
     image: postgres:16.3
-    ports: 
+    ports:
       - "5432:5432"
     volumes:
-      #- ./tmp/db:/var/lib/postgresql/data
-      # This is supposed to be for defining a volume on a docker container
       - pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -16,34 +16,21 @@ services:
     networks:
       - backend
 
-  # Redis container
-  redis:
-    image: redis:7.2.4
-    ports:
-      - "6379:6379"
-    volumes:
-      - redisdata:/data
-    networks:
-      - backend
-    mem_limit: 250m
-
-  # Sidekiq container
-  sidekiq:
+  # GoodJob container
+  goodjob:
     build: .
-    command: bundle exec sidekiq
+    command: bundle exec rails good_job:start
     depends_on:
-      - redis
       - db
     volumes:
       - .:/app
     env_file:
-      - .env  # Assuming you have an .env file at the root that contains necessary environment variables
+      - .env
     environment:
       - RAILS_ENV=development
-      - REDIS_URL=redis://redis:6379/0  # This makes sure the environment variable is set for Redis URL
     networks:
       - backend
-    mem_limit: 500m  # Optional: specify memory limit for Sidekiq service
+    mem_limit: 500m
 
   # Webserver container
   web:
@@ -59,22 +46,17 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - goodjob
     environment:
       - GUI_AVAILABLE=false
-    # We are using the env_file above, so we don't need to define some environment variables directly
-    # environment:
-      # For DATABASE_URL, we use @db to match the name of the postgreSQL database service
-      # DATABASE_URL: postgresql://railssass:password@db/myapp_development
     mem_limit: 1g
-    stdin_open: true  # docker run -i; for binding.pry
-    tty: true         # docker run -t; for binding.pry
+    stdin_open: true
+    tty: true
     networks:
       - backend
 
 volumes:
-  redisdata: {}
   pgdata: {}
 
-# The networks limit communication between Docker containers to only the ones defined in the same network
 networks:
   backend:
