@@ -1,73 +1,68 @@
 services:
-  # PostgreSQL container
   db:
     image: postgres:16.3
     volumes:
-      #- ./tmp/db:/var/lib/postgresql/data
-      # This is supposed to be for defining a volume on a docker container
       - pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    mem_limit: 500m
+    networks:
+      - backend
+
+  goodjob:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      args:
+        - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    command: bundle exec rails good_job:start
+    depends_on:
+      - db
+    volumes:
+      - ./log:/rails/log
+      - ./tmp:/rails/tmp
+      - ./storage:/rails/storage
+    env_file:
+      - .env
+    environment:
+      - RAILS_ENV=production
     networks:
       - backend
     mem_limit: 500m
 
-  # Redis container
-  redis:
-    image: redis:7.2.4
-    volumes:
-      - redisdata:/data
-    networks:
-      - backend
-    mem_limit: 250m
-
-  # Sidekiq container
-  sidekiq:
-    build: .
-    command: bundle exec sidekiq
-    depends_on:
-      - redis
-      - db
-    volumes:
-      - .:/app
-    env_file:
-      - .env  # Assuming you have an .env file at the root that contains necessary environment variables
-    environment:
-      - RAILS_ENV=production
-      - REDIS_URL=redis://redis:6379/0  # This makes sure the environment variable is set for Redis URL
-    networks:
-      - backend
-    mem_limit: 500m  # Optional: specify memory limit for Sidekiq service
-
-  # Webserver container
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+      dockerfile: Dockerfile.production
+      args:
+        - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     volumes:
-      - .:/rails
+      - rails_log:/rails/log
+      - rails_storage:/rails/storage
+      - rails_tmp:/rails/tmp
     env_file:
       - ".env"
     ports:
-      # the port 8080 here is the port specified in the nginx config file
-      # 3000 is the port that the rails server is running on in the docker container
       - "8080:3000"
     depends_on:
       - db
-      - redis
+      - goodjob
     environment:
       - GUI_AVAILABLE=false
+      - RAILS_ENV=production
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    mem_limit: 1g
     networks:
       - backend
-    mem_limit: 1g
 
 volumes:
-  redisdata: {}
   pgdata: {}
+  rails_log:
+  rails_storage:
+  rails_tmp:
 
-# The networks limit communication between Docker containers to only the ones defined in the same network
 networks:
   backend:
+
