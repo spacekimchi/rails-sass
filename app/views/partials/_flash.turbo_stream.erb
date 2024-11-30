@@ -1,0 +1,6 @@
+<% if flash.any? %>
+  <%= turbo_stream.replace 'flash' do %>
+    <%= render partial: 'layouts/partials/flash' %>
+  <% end %>
+<% end %>
+
