@@ -1,25 +1,48 @@
-<nav id="top-nav">
-  <%= link_to 'Home', root_path %>
-  <% if current_user&.super_admin? %>
-    <%= link_to 'Admin', admin_root_path %>
-  <% end %>
-  <% if admin_route? %>
-    <%= link_to 'Users', admin_users_path %>
-    <%= link_to 'Products', admin_products_path %>
-    <%= link_to 'Prices', admin_stripe_prices_path %>
-    <%= link_to 'Support', admin_support_tickets_path %>
-    <%= link_to 'Errors', admin_application_errors_path %>
-  <% else %>
-    <%= link_to 'Products', products_path %>
-    <%= link_to 'Support', new_support_tickets_path %>
-  <% end %>
-  <% if signed_in? %>
-    <span class="nav-right-actions">
-      Signed in as: <%= current_user.email %>
-      <%= button_to 'Billing Portal', stripe_billing_portal_sessions_path, data: { turbo: false } %>
-      <%= button_to 'Sign out', sign_out_path, method: :delete %>
-    </span>
-  <% else %>
-    <%= link_to 'Sign in', sign_in_path %>
-  <% end %>
-</nav>
+<div class="top-nav-container" data-controller="navigation">
+  <nav id="top-nav">
+    <%= link_to root_path do %>
+      L
+      <!--img src="/images/chopperx48.png" alt="Logo" style="height: 31px;"-->
+    <% end %>
+
+    <!-- Hamburger Icon -->
+    <button class="menu-toggle" id="menu-toggle" data-navigation-target="menuToggle"  data-action="navigation#toggleHamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links" data-navigation-target="navLinks">
+      <li><%= link_to 'Home', root_path %></li>
+      <% if admin_route? %>
+        <li><%= link_to 'Users', admin_users_path %></li>
+        <li><%= link_to 'Products', admin_products_path %></li>
+        <li><%= link_to 'Prices', admin_stripe_prices_path %></li>
+        <li><%= link_to 'Support', admin_support_tickets_path %></li>
+        <li><%= link_to 'Errors', admin_application_errors_path %></li>
+      <% else %>
+        <li><%= link_to 'Support', new_support_tickets_path %></li>
+        <li><%= link_to 'FAQ', faq_index_path %></li>
+      <% end %>
+      <div class="nav-right-actions">
+        <% if signed_in? %>
+          <% if current_user&.super_admin? %>
+            <li>
+              <%= link_to 'Admin', admin_root_path %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to current_user.email, root_path %>
+          </li>
+          <%# if current_user.stripe_customer_id.present? %>
+          <%#= button_to 'Billing Portal', stripe_billing_portal_sessions_path, data: { turbo: false } %>
+          <%# end %>
+          <li>
+            <%= button_to 'Sign out', sign_out_path, method: :delete %>
+          </li>
+        <% else %>
+          <li><%= link_to 'Sign in', sign_in_path %></li>
+        <% end %>
+      </div>
+    </ul>
+  </nav>
+</div>
+

@@ -1,0 +1,48 @@
+$DESKTOP_WIDTH: 1080px;
+
+// Colors
+$LIGHT_BACKGROUND: #FBFBFB;
+$NAV_ORANGE_BACKGROUND: #FC8F54;
+$GOOD_ORANGE: #EC8305;
+$STRONG_ORANGE: #FF6500;
+$NAV_HOVER: #FDE7BB;
+$LINK_COLOR: #006BFF;
+$RECIPE_EDIT_COLOR: #F95454;
+$NEARLY_WHITE: #FDFDFD;
+$OFF_WHITE: #F6F1E9;
+$OFF_YELLOW: #FFECC8;
+$Y_COMBINATOR_ORANGE: #FF6600;
+$GRAY_BORDER: #E4E0E1;
+$FILTER_BORDER: #4A4947;
+$STRONG_RED: #FF2929;
+$FILTER_BLUE: #80C4E9;
+$FILTER_GREEN: #9ADE7B;
+$FILTER_RED: #FF8E9E;
+
+$FLASH_BORDER_GREEN: #6EC207;
+$FLASH_BG_GREEN: #6EC207;
+$FLASH_BORDER_BLUE: #3876BF;
+$FLASH_BORDER_RED: #E72929;
+
+/* Variables */
+$nav-background: #FF6600;
+$nav-hover: #FFFFFF;
+$nav-text: #FFFFFF;
+$nav-font-size: 1rem;
+$nav-padding: 0.5rem 0rem;
+$nav-breakpoint: 768px;
+
+// Mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: $nav-breakpoint) { @content; }
+  }
+  @else if $breakpoint == desktop {
+    @media (min-width: $nav-breakpoint + 1px) { @content; }
+  }
+}
+
+@mixin focus-style {
+  outline: 2px solid $nav-hover;
+  outline-offset: 2px;
+}

@@ -81,6 +81,6 @@ Rails.application.routes.draw do
 
   resource :checkout, only: %i[new show]
   resources :products, only: %i[index show]
-
   resource :support_tickets, only: %i[new create]
+  resources :faq, only: %i[index]
 end

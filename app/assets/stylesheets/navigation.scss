@@ -1,11 +1,158 @@
-nav#top-nav {
+.top-nav-container {
+  background-color: $NAV_ORANGE_BACKGROUND;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0rem; // Added padding for better spacing
+
+  nav#top-nav {
     display: flex;
     align-items: center;
+    font-weight: 600;
+    position: relative; // For positioning the nav links on mobile
+    max-width: 1080px;
+    width: 100%;
+
+    // different
     & > * {
-        padding: 5px;
+      padding: 5px;
     }
+
+    a:hover,
+    button:hover {
+        color: $NAV_HOVER;
+        &:active {
+            transform: scale(0.97); /* Slightly shrink to simulate pressing */
+        }
+    }
+
+    /* Hamburger Menu Toggle Button */
+    .menu-toggle {
+      display: none; // Hidden by default, shown on mobile
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      margin-left: auto; // Pushes the hamburger to the right
+      z-index: 1001; // Ensure it stays above the nav-links
+
+      .hamburger,
+      .hamburger::before,
+      .hamburger::after {
+        content: '';
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #fff;
+        margin: 5px 0;
+        transition: all 0.3s ease;
+      }
+
+      /* Hamburger animation when active */
+      &.active .hamburger {
+        background-color: transparent;
+      }
+
+      &.active .hamburger::before {
+        transform: translateY(0.5rem) rotate(45deg);
+      }
+
+      &.active .hamburger::after {
+        transform: translateY(-0.5rem) rotate(-45deg);
+      }
+    }
+
+    /* Navigation Links */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      margin-left: 1rem; // Space between logo and links
+      flex: 1;
+
+      li {
+        margin: 0 0.5rem;
+      }
+
+      a,
+      button {
+        color: black;
+        text-decoration: none;
+        padding: 0.5rem 0rem;
+        display: block;
+        transition: color 0.3s ease;
+
+        &:hover,
+        &:focus {
+          color: $NAV_HOVER;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    /* Right-aligned actions */
+    .nav-right-actions {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      & > * {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  // Mobile Styles
+  @include respond-to(mobile) {
+    nav#top-nav {
+      width: 100%;
+      .menu-toggle {
+        display: block; // Show hamburger on mobile
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; // Hidden off-screen
+        width: 250px;
+        height: 100%;
+        background-color: $NAV_ORANGE_BACKGROUND;
+        flex-direction: column;
+        align-items: start;
+        padding-top: 60px; // Space for the navbar
+        transition: right 0.3s ease;
+        z-index: 1000;
+
+        li {
+          width: 100%;
+          margin: 0;
+        }
+
+        a,
+        button {
+          width: 100%;
+          padding: 1rem;
+          border-bottom: 1px solid lighten($NAV_ORANGE_BACKGROUND, 10%);
+        }
+
+        /* Show menu when active */
+        &.active {
+          right: 0;
+        }
+      }
+
+      /* Right-aligned actions */
+      .nav-right-actions {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+      }
+
+      /* Adjust logo and menu toggle */
+      .logo {
+          flex: 1;
+      }
+  }
+  }
 }
 
-.nav-right-actions {
-    margin-left: auto;
-}
