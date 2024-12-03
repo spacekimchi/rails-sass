@@ -1,3 +1,4 @@
+/* Variables */
 table th {
   border-bottom: solid 1px black;
 }
@@ -15,16 +16,141 @@ table tbody td {
   transform: translate(-50%);
 }
 
-nav#top-nav {
+.top-nav-container {
+  background-color: #FC8F54;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0rem;
+}
+.top-nav-container nav#top-nav {
   display: flex;
   align-items: center;
+  font-weight: 600;
+  position: relative;
+  max-width: 1080px;
+  width: 100%;
+  /* Hamburger Menu Toggle Button */
+  /* Navigation Links */
+  /* Right-aligned actions */
 }
-nav#top-nav > * {
+.top-nav-container nav#top-nav > * {
   padding: 5px;
 }
-
-.nav-right-actions {
+.top-nav-container nav#top-nav a:hover,
+.top-nav-container nav#top-nav button:hover {
+  color: #FDE7BB;
+}
+.top-nav-container nav#top-nav a:hover:active,
+.top-nav-container nav#top-nav button:hover:active {
+  transform: scale(0.97); /* Slightly shrink to simulate pressing */
+}
+.top-nav-container nav#top-nav .menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
   margin-left: auto;
+  z-index: 1001;
+  /* Hamburger animation when active */
+}
+.top-nav-container nav#top-nav .menu-toggle .hamburger,
+.top-nav-container nav#top-nav .menu-toggle .hamburger::before,
+.top-nav-container nav#top-nav .menu-toggle .hamburger::after {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+.top-nav-container nav#top-nav .menu-toggle.active .hamburger {
+  background-color: transparent;
+}
+.top-nav-container nav#top-nav .menu-toggle.active .hamburger::before {
+  transform: translateY(0.5rem) rotate(45deg);
+}
+.top-nav-container nav#top-nav .menu-toggle.active .hamburger::after {
+  transform: translateY(-0.5rem) rotate(-45deg);
+}
+.top-nav-container nav#top-nav .nav-links {
+  display: flex;
+  list-style: none;
+  margin-left: 1rem;
+  flex: 1;
+}
+.top-nav-container nav#top-nav .nav-links li {
+  margin: 0 0.5rem;
+}
+.top-nav-container nav#top-nav .nav-links a,
+.top-nav-container nav#top-nav .nav-links button {
+  color: black;
+  text-decoration: none;
+  padding: 0.5rem 0rem;
+  display: block;
+  transition: color 0.3s ease;
+}
+.top-nav-container nav#top-nav .nav-links a:hover, .top-nav-container nav#top-nav .nav-links a:focus,
+.top-nav-container nav#top-nav .nav-links button:hover,
+.top-nav-container nav#top-nav .nav-links button:focus {
+  color: #FDE7BB;
+  text-decoration: underline;
+}
+.top-nav-container nav#top-nav .nav-right-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.top-nav-container nav#top-nav .nav-right-actions > * {
+  margin-left: 1rem;
+}
+@media (max-width: 768px) {
+  .top-nav-container nav#top-nav {
+    width: 100%;
+    /* Right-aligned actions */
+    /* Adjust logo and menu toggle */
+  }
+  .top-nav-container nav#top-nav .menu-toggle {
+    display: block;
+  }
+  .top-nav-container nav#top-nav .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100%;
+    background-color: #FC8F54;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 60px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    /* Show menu when active */
+  }
+  .top-nav-container nav#top-nav .nav-links li {
+    width: 100%;
+    margin: 0;
+  }
+  .top-nav-container nav#top-nav .nav-links a,
+  .top-nav-container nav#top-nav .nav-links button {
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px solid #fdb086;
+  }
+  .top-nav-container nav#top-nav .nav-links.active {
+    right: 0;
+  }
+  .top-nav-container nav#top-nav .nav-right-actions {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+  .top-nav-container nav#top-nav .logo {
+    flex: 1;
+  }
 }
 
 body {
