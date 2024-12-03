@@ -24,7 +24,7 @@ class ProductPrice < ApplicationRecord
   PAYMENT = 'payment'.freeze
   SUBSCRIPTION = 'subscription'.freeze
   INTERVAL_DROPDOWN_OPTIONS = %w[lifetime day week month year]
-  enum interval: { lifetime: 0, day: 1, week: 2, month: 3, year: 4 }
+  enum :interval, [:lifetime, :day, :week, :month, :year], default: :lifetime
 
   belongs_to :product
 

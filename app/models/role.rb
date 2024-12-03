@@ -10,10 +10,11 @@
 #
 class Role < ApplicationRecord
   ADMIN = 'admin'.freeze
+  REGULAR = 'regular'.freeze
   SUPER_ADMIN = 'super_admin'.freeze
 
-  NAMES = [ADMIN, SUPER_ADMIN].freeze
-  enum name: { admin: 0, super_admin: 1 }
+  NAMES = [ADMIN, REGULAR, SUPER_ADMIN].freeze
+  enum :name, [:regular, :admin, :super_admin], default: :regular
 
   has_many :user_roles
   has_many :users, through: :user_roles
@@ -21,12 +22,20 @@ class Role < ApplicationRecord
   # Validates that the name is included in the keys of the enum definition
   validates :name, inclusion: { in: names.keys }
 
+  def self.regular
+    Role.find_by(name: REGULAR)
+  end
+
   def self.admin
     Role.find_by(name: ADMIN)
   end
 
   def self.super_admin
     Role.find_by(name: SUPER_ADMIN)
+  end
+
+  def regular?
+    name == REGULAR
   end
 
   def admin?

@@ -24,8 +24,8 @@ class SupportTicket < ApplicationRecord
   validates :subject, presence: true
   validates :content, presence: true
 
-  enum status: { open: 0, in_progress: 1, closed: 2 }
-  enum priority: { low: 0, medium: 1, high: 2, critical: 3 }
+  enum :status, [:open, :in_progress, :closed], default: :open
+  enum :priority, [:low, :medium, :high, :critical], default: :medium
 
   def assign_to_user(user)
     update(assigned_to: user)
