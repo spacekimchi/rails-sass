@@ -15,6 +15,9 @@ Rails.application.configure do
   # Enable server timing.
   config.server_timing = true
 
+  config.force_ssl = false
+  config.session_store :cookie_store, key: '_railssass', secure: false, same_site: :lax, signed: false
+
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
@@ -54,6 +57,12 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  config.public_file_server.enabled = true
+
+  config.assets.compile = true
+  config.assets.debug = true
+  config.assets.digest = true
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
