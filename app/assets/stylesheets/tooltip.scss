@@ -1,0 +1,77 @@
+.tooltip {
+  position: absolute;
+  max-width: 90vw;
+  max-height: 100px;
+  background: #fff;
+  border: 1px solid variables.$shadow-color;
+  border-radius: 4px;
+  z-index: 999;
+  overflow: visible;
+  padding: 10px;
+}
+
+/* Use separate classes for the arrow direction */
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%) rotateZ(180deg);
+}
+/* Outer "border" arrow */
+.tooltip-arrow::before {
+  content: "";
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid variables.$shadow-color; /* outer border color */
+  top: -8px;
+  left: -10px;
+}
+
+/* Inner arrow */
+.tooltip-arrow::after {
+  content: "";
+  position: absolute;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff; /* inner arrow color */
+  top: -8px; /* move it down slightly so it sits inside the 'border' */
+  left: -8px;
+}
+
+/* Position for below scenario */
+.tooltip--below .tooltip-arrow {
+  top: -10px;
+}
+
+/* If tooltip is below the parent, arrow points upwards */
+/* Supposedly "below" means tooltip is below the parent:
+   The arrow should point UP (arrow on top of the tooltip). */
+.tooltip--below .tooltip-arrow {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white;
+  top: -8px;
+}
+
+/* Supposedly "above" means tooltip is above the parent:
+   The arrow should point DOWN (arrow on bottom of the tooltip). */
+.tooltip--above .tooltip-arrow {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  bottom: -8px;
+
+  /* Outer "border" arrow */
+  &.tooltip-arrow::before {
+      top: -2px;
+      transform: rotateZ(180deg);
+  }
+
+  /* Inner arrow */
+  &.tooltip-arrow::after {
+      top: 0; /* move it down slightly so it sits inside the 'border' */
+      transform: rotateZ(180deg);
+  }
+}
+
